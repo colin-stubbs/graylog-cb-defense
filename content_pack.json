@@ -1,0 +1,153 @@
+{
+   "name":"Cb Defense",
+   "description":"Carbon Black Defense ",
+   "category":"Security",
+   "inputs":[
+      {
+         "id":"5a31d12a1d67a3f03da28645",
+         "title":"Cb-Defense-Syslog",
+         "configuration":{
+            "recv_buffer_size":1048576,
+            "tcp_keepalive":false,
+            "use_null_delimiter":false,
+            "tls_client_auth_cert_file":"",
+            "force_rdns":false,
+            "bind_address":"0.0.0.0",
+            "tls_cert_file":"",
+            "store_full_message":false,
+            "expand_structured_data":false,
+            "port":11000,
+            "tls_key_file":"",
+            "tls_enable":false,
+            "tls_key_password":"",
+            "max_message_size":2097152,
+            "tls_client_auth":"disabled",
+            "override_source":null,
+            "allow_override_date":true
+         },
+         "static_fields":{
+
+         },
+         "type":"org.graylog2.inputs.syslog.tcp.SyslogTCPInput",
+         "global":true,
+         "extractors":[
+            {
+               "title":"Cb-Defense-Syslog-Connector",
+               "type":"GROK",
+               "cursor_strategy":"COPY",
+               "target_field":"",
+               "source_field":"message",
+               "configuration":{
+                  "grok_pattern":"%{DATA:application}\\|%{DATA:source}\\|%{DATA:version}\\|%{DATA:vendor}\\|%{DATA:product}\\|%{DATA:dev_version}\\|%{DATA:signature}\\|%{DATA:name}\\|%{NUMBER:severity}\\|%{GREEDYDATA:extension}",
+                  "named_captures_only":true
+               },
+               "converters":[
+
+               ],
+               "condition_type":"REGEX",
+               "condition_value":"^cb_defense\\|",
+               "order":0
+            },
+            {
+               "title":"Cb-Defense-Field-extension",
+               "type":"GROK",
+               "cursor_strategy":"COPY",
+               "target_field":"",
+               "source_field":"extension",
+               "configuration":{
+                  "grok_pattern":"rt=\"%{DATA:rt}\" dvchost=%{DATA:dvchost} duser=%{DATA:duser} dvc=%{DATA:dvc} cs3Label=\"%{DATA:cs3Label}\" cs3=\"%{DATA:cs3}\" cs4Label=\"%{DATA:cs4Label}\" cs4=\"%{DATA:cs4}\" act=%{GREEDYDATA:act}",
+                  "named_captures_only":true
+               },
+               "converters":[
+
+               ],
+               "condition_type":"REGEX",
+               "condition_value":"^rt=",
+               "order":0
+            }
+         ]
+      }
+   ],
+   "streams":[
+
+   ],
+   "outputs":[
+
+   ],
+   "dashboards":[
+      {
+         "title":"Cb Defense",
+         "description":"Cb Defense Overview",
+         "dashboard_widgets":[
+            {
+               "description":"Server Sources",
+               "type":"QUICKVALUES",
+               "cache_time":10,
+               "configuration":{
+                  "timerange":{
+                     "type":"relative",
+                     "range":86400
+                  },
+                  "field":"source",
+                  "show_pie_chart":true,
+                  "query":"gl2_source_input:5a1cc1811d67a3df2de91c45 AND application:cb_defense",
+                  "show_data_table":true
+               },
+               "col":3,
+               "row":1,
+               "height":3,
+               "width":1
+            },
+            {
+               "description":"Threat Classifications",
+               "type":"QUICKVALUES",
+               "cache_time":10,
+               "configuration":{
+                  "timerange":{
+                     "type":"relative",
+                     "range":86400
+                  },
+                  "field":"signature",
+                  "show_pie_chart":true,
+                  "query":"gl2_source_input:5a1cc1811d67a3df2de91c45 AND application:cb_defense",
+                  "show_data_table":true
+               },
+               "col":2,
+               "row":1,
+               "height":3,
+               "width":1
+            },
+            {
+               "description":"Notifications",
+               "type":"SEARCH_RESULT_COUNT",
+               "cache_time":10,
+               "configuration":{
+                  "timerange":{
+                     "type":"relative",
+                     "range":86400
+                  },
+                  "lower_is_better":true,
+                  "trend":true,
+                  "query":"application:cb_defense"
+               },
+               "col":1,
+               "row":1,
+               "height":1,
+               "width":1
+            }
+         ]
+      }
+   ],
+   "grok_patterns":[
+
+   ],
+   "lookup_tables":[
+
+   ],
+   "lookup_caches":[
+
+   ],
+   "lookup_data_adapters":[
+
+   ]
+}

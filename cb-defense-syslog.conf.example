@@ -1,0 +1,67 @@
+[general]
+
+#
+# Template for syslog output.
+# This is a jinja 2 template
+# NOTE: The source variable corresponds to the Cb Defense Server used to retrieve results
+# NOTE: The updated template below prefixed with "cb_defense|" makes it easier to match and apply extractors to logs received by Graylog/etc
+#
+template = cb_defense|{{source}}|{{version}}|{{vendor}}|{{product}}|{{dev_version}}|{{signature}}|{{name}}|{{severity}}|{{extension}}
+
+#
+# Configure the specific output.
+# Valid options are: 'udp', 'tcp', 'tcp+tls'
+#
+#  udp     - Have the events sent over a UDP socket
+#  tcp     - Have the events sent over a TCP socket
+#  tcp+tls - Have the events sent over a TLS+TCP socket
+#
+output_type=tcp
+
+#
+# tcpout=IP:port - ie 1.2.3.5:8080
+#
+tcp_out=
+
+#
+# udpout=IP:port - ie 1.2.3.5:8080
+#
+udp_out=
+
+[tls]
+
+#
+# Specify a file containing PEM-encoded CA certificates for verifying the peer server when using TLS+TCP syslog
+#
+#ca_cert = /etc/cb/integrations/cb-defense/cert.pem
+
+#
+# Uncomment tls_verify and set to "false" in order to disable verification of the peer server certificate
+#
+#tls_verify = true
+
+[cbdefense1]
+
+#
+# Cb Defense Connector ID
+#
+connector_id = F8KF111111
+
+#
+# Cb Defense API Key
+#
+api_key = WT9T3QDP4UGCK2NS96111111
+
+#
+# Cb Defense Server URL
+# NOTE: this is not the url to the web ui, but to the url of sensor checkins
+#
+server_url = https://server.yourcompany.com
+
+#
+# For more than one Cb Defense Server, add another server using the following template including the stanza
+#
+#[cbdefenseserver2]
+#connector_id = F8KF111111
+#api_key = WT9T3QDP4UGCK2NS96111111
+#server_url = https://server2.yourcompany.com
