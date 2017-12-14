@@ -21,7 +21,7 @@ output_type=tcp
 #
 # tcpout=IP:port - ie 1.2.3.5:8080
 #
-tcp_out=
+tcp_out=127.0.0.1:11000
 
 #
 # udpout=IP:port - ie 1.2.3.5:8080
