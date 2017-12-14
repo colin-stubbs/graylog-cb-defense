@@ -1,248 +1,248 @@
 {
-  "name":"Cb Defense",
-  "description":"Carbon Black Defense input, log extractors, stream and dashboard. Assumes use of  Cb Defense syslog connector.",
-  "category":"Security",
-  "inputs":[
+  "name": "Cb Defense",
+  "description": "Carbon Black Defense input, log extractors, stream and dashboard. Assumes use of  Cb Defense syslog connector.",
+  "category": "Security",
+  "inputs": [
     {
-      "id":"5a31d12a1d67a3f03da28645",
-      "title":"Cb-Defense-Syslog",
-      "configuration":{
-        "recv_buffer_size":1048576,
-        "tcp_keepalive":false,
-        "use_null_delimiter":false,
-        "tls_client_auth_cert_file":"",
-        "force_rdns":false,
-        "bind_address":"0.0.0.0",
-        "tls_cert_file":"",
-        "store_full_message":false,
-        "expand_structured_data":false,
-        "port":11000,
-        "tls_key_file":"",
-        "tls_enable":false,
-        "tls_key_password":"",
-        "max_message_size":2097152,
-        "tls_client_auth":"disabled",
-        "override_source":null,
-        "allow_override_date":true
+      "id": "5a31d12a1d67a3f03da28645",
+      "title": "Cb-Defense-Syslog",
+      "configuration": {
+        "recv_buffer_size": 1048576,
+        "tcp_keepalive": false,
+        "use_null_delimiter": false,
+        "tls_client_auth_cert_file": "",
+        "force_rdns": false,
+        "bind_address": "0.0.0.0",
+        "tls_cert_file": "",
+        "store_full_message": false,
+        "expand_structured_data": false,
+        "port": 11000,
+        "tls_key_file": "",
+        "tls_enable": false,
+        "tls_key_password": "",
+        "max_message_size": 2097152,
+        "tls_client_auth": "disabled",
+        "override_source": null,
+        "allow_override_date": true
       },
-      "static_fields":{
+      "static_fields": {
 
       },
-      "type":"org.graylog2.inputs.syslog.tcp.SyslogTCPInput",
-      "global":true,
-      "extractors":[
+      "type": "org.graylog2.inputs.syslog.tcp.SyslogTCPInput",
+      "global": true,
+      "extractors": [
         {
-          "title":"Cb-Defense-Syslog-Connector",
-          "type":"GROK",
-          "cursor_strategy":"COPY",
-          "target_field":"",
-          "source_field":"message",
-          "configuration":{
-            "grok_pattern":"%{DATA:application}\\|%{DATA:source}\\|%{DATA:version}\\|%{DATA:vendor}\\|%{DATA:product}\\|%{DATA:dev_version}\\|%{DATA:signature}\\|%{DATA:name}\\|%{NUMBER:severity}\\|%{GREEDYDATA:extension}",
-            "named_captures_only":true
+          "title": "Cb-Defense-Syslog-Connector",
+          "type": "GROK",
+          "cursor_strategy": "COPY",
+          "target_field": "",
+          "source_field": "message",
+          "configuration": {
+            "grok_pattern": "%{DATA:application}\\|%{DATA:source}\\|%{DATA:version}\\|%{DATA:vendor}\\|%{DATA:product}\\|%{DATA:dev_version}\\|%{DATA:signature}\\|%{DATA:name}\\|%{NUMBER:severity}\\|%{GREEDYDATA:extension}",
+            "named_captures_only": true
           },
-          "converters":[
+          "converters": [
 
           ],
-          "condition_type":"REGEX",
-          "condition_value":"^cb_defense\\|",
-          "order":0
+          "condition_type": "REGEX",
+          "condition_value": "^cb_defense\\|",
+          "order": 0
         },
         {
-          "title":"Cb-Defense-Field-extension",
-          "type":"GROK",
-          "cursor_strategy":"COPY",
-          "target_field":"",
-          "source_field":"extension",
-          "configuration":{
-            "grok_pattern":"rt=\"%{DATA:rt}\" dvchost=%{DATA:dvchost} duser=%{DATA:duser} dvc=%{DATA:dvc} cs3Label=\"%{DATA:cs3Label}\" cs3=\"%{DATA:cs3}\" cs4Label=\"%{DATA:cs4Label}\" cs4=\"%{DATA:cs4}\" act=%{GREEDYDATA:act}",
-            "named_captures_only":true
+          "title": "Cb-Defense-Field-extension",
+          "type": "GROK",
+          "cursor_strategy": "COPY",
+          "target_field": "",
+          "source_field": "extension",
+          "configuration": {
+            "grok_pattern": "rt=\"%{DATA:rt}\" dvchost=%{DATA:dvchost} duser=%{DATA:duser} dvc=%{DATA:dvc} cs3Label=\"%{DATA:cs3Label}\" cs3=\"%{DATA:cs3}\" cs4Label=\"%{DATA:cs4Label}\" cs4=\"%{DATA:cs4}\" act=%{GREEDYDATA:act}",
+            "named_captures_only": true
           },
-          "converters":[
+          "converters": [
 
           ],
-          "condition_type":"REGEX",
-          "condition_value":"^rt=",
-          "order":0
+          "condition_type": "REGEX",
+          "condition_value": "^rt=",
+          "order": 0
         }
       ]
     }
   ],
-  "streams":[
+  "streams": [
     {
-      "id":"5a31ee241d67a3f03da2a624",
-      "title":"Cb Defense Messages",
-      "description":"All messages from Cb Defense",
-      "disabled":false,
-      "matching_type":"AND",
-      "stream_rules":[
+      "id": "5a31ee241d67a3f03da2a624",
+      "title": "Cb Defense Messages",
+      "description": "All messages from Cb Defense",
+      "disabled": false,
+      "matching_type": "AND",
+      "stream_rules": [
         {
-          "type":"EXACT",
-          "field":"application",
-          "value":"cb_defense",
-          "inverted":false,
-          "description":""
+          "type": "EXACT",
+          "field": "application",
+          "value": "cb_defense",
+          "inverted": false,
+          "description": ""
         }
       ],
-      "outputs":[
+      "outputs": [
 
       ],
-      "default_stream":false
+      "default_stream": false
     }
   ],
-  "outputs":[
+  "outputs": [
 
   ],
-  "dashboards":[
+  "dashboards": [
     {
-      "title":"Cb Defense",
-      "description":"Cb Defense notification overview for the last 24 hours",
-      "dashboard_widgets":[
+      "title": "Cb Defense",
+      "description": "Cb Defense notification overview for the last 24 hours",
+      "dashboard_widgets": [
         {
-          "description":"Notifications, Last Day",
-          "type":"SEARCH_RESULT_COUNT",
-          "cache_time":10,
-          "configuration":{
-            "timerange":{
-              "type":"relative",
-              "range":86400
+          "description": "Notifications, Last Day",
+          "type": "SEARCH_RESULT_COUNT",
+          "cache_time": 10,
+          "configuration": {
+            "timerange": {
+              "type": "relative",
+              "range": 86400
             },
-            "lower_is_better":true,
-            "trend":true,
-            "query":"application:cb_defense"
+            "lower_is_better": true,
+            "trend": true,
+            "query": "application:cb_defense"
           },
-          "col":1,
-          "row":1,
-          "height":1,
-          "width":1
+          "col": 1,
+          "row": 1,
+          "height": 1,
+          "width": 1
         },
         {
-          "description":"Top Notifications",
-          "type":"QUICKVALUES",
-          "cache_time":10,
-          "configuration":{
-            "timerange":{
-              "type":"relative",
-              "range":86400
+          "description": "Top Notifications",
+          "type": "QUICKVALUES",
+          "cache_time": 10,
+          "configuration": {
+            "timerange": {
+              "type": "relative",
+              "range": 86400
             },
-            "field":"name",
-            "show_pie_chart":false,
-            "query":"application:cb_defense",
-            "show_data_table":true
+            "field": "name",
+            "show_pie_chart": false,
+            "query": "application:cb_defense",
+            "show_data_table": true
           },
-          "col":1,
-          "row":3,
-          "height":2,
-          "width":3
+          "col": 1,
+          "row": 3,
+          "height": 2,
+          "width": 3
         },
         {
-          "description":"Notification Sources",
-          "type":"QUICKVALUES",
-          "cache_time":10,
-          "configuration":{
-            "timerange":{
-              "type":"relative",
-              "range":86400
+          "description": "Top Endpoints",
+          "type": "QUICKVALUES",
+          "cache_time": 10,
+          "configuration": {
+            "timerange": {
+              "type": "relative",
+              "range": 86400
             },
-            "field":"source",
-            "show_pie_chart":false,
-            "query":"gl2_source_input:5a1cc1811d67a3df2de91c45 AND application:cb_defense",
-            "show_data_table":true
+            "field": "dvchost",
+            "show_pie_chart": false,
+            "query": "application:\"cb_defense\"",
+            "show_data_table": true
           },
-          "col":1,
-          "row":2,
-          "height":1,
-          "width":1
+          "col": 4,
+          "row": 1,
+          "height": 2,
+          "width": 1
         },
         {
-          "description":"Top Endpoints",
-          "type":"QUICKVALUES",
-          "cache_time":10,
-          "configuration":{
-            "timerange":{
-              "type":"relative",
-              "range":86400
+          "description": "Top Endpoint IP's",
+          "type": "QUICKVALUES",
+          "cache_time": 10,
+          "configuration": {
+            "timerange": {
+              "type": "relative",
+              "range": 86400
             },
-            "field":"dvchost",
-            "show_pie_chart":false,
-            "query":"application:\"cb_defense\"",
-            "show_data_table":true
+            "field": "dvc",
+            "show_pie_chart": false,
+            "query": "application:\"cb_defense\"",
+            "show_data_table": true
           },
-          "col":4,
-          "row":1,
-          "height":2,
-          "width":1
+          "col": 4,
+          "row": 3,
+          "height": 2,
+          "width": 1
         },
         {
-          "description":"Top Endpoint IP's",
-          "type":"QUICKVALUES",
-          "cache_time":10,
-          "configuration":{
-            "timerange":{
-              "type":"relative",
-              "range":86400
+          "description": "Top Users",
+          "type": "QUICKVALUES",
+          "cache_time": 10,
+          "configuration": {
+            "timerange": {
+              "type": "relative",
+              "range": 86400
             },
-            "field":"dvc",
-            "show_pie_chart":false,
-            "query":"application:\"cb_defense\"",
-            "show_data_table":true
+            "field": "duser",
+            "show_pie_chart": false,
+            "query": "application:\"cb_defense\"",
+            "show_data_table": true
           },
-          "col":4,
-          "row":3,
-          "height":2,
-          "width":1
+          "col": 3,
+          "row": 1,
+          "height": 2,
+          "width": 1
         },
         {
-          "description":"Top Users",
-          "type":"QUICKVALUES",
-          "cache_time":10,
-          "configuration":{
-            "timerange":{
-              "type":"relative",
-              "range":86400
+          "description": "Notification Sources",
+          "type": "QUICKVALUES",
+          "cache_time": 10,
+          "configuration": {
+            "timerange": {
+              "type": "relative",
+              "range": 86400
             },
-            "field":"duser",
-            "show_pie_chart":false,
-            "query":"application:\"cb_defense\"",
-            "show_data_table":true
+            "field": "source",
+            "show_pie_chart": false,
+            "query": "application:cb_defense",
+            "show_data_table": true
           },
-          "col":3,
-          "row":1,
-          "height":2,
-          "width":1
+          "col": 1,
+          "row": 2,
+          "height": 1,
+          "width": 1
         },
         {
-          "description":"Top Classifications",
-          "type":"QUICKVALUES",
-          "cache_time":10,
-          "configuration":{
-            "timerange":{
-              "type":"relative",
-              "range":86400
+          "description": "Top Classifications",
+          "type": "QUICKVALUES",
+          "cache_time": 10,
+          "configuration": {
+            "timerange": {
+              "type": "relative",
+              "range": 86400
             },
-            "field":"signature",
-            "show_pie_chart":true,
-            "query":"gl2_source_input:5a1cc1811d67a3df2de91c45 AND application:cb_defense",
-            "show_data_table":true
+            "field": "signature",
+            "show_pie_chart": true,
+            "query": "application:cb_defense",
+            "show_data_table": true
           },
-          "col":2,
-          "row":1,
-          "height":2,
-          "width":1
+          "col": 2,
+          "row": 1,
+          "height": 2,
+          "width": 1
         }
       ]
     }
   ],
-  "grok_patterns":[
+  "grok_patterns": [
 
   ],
-  "lookup_tables":[
+  "lookup_tables": [
 
   ],
-  "lookup_caches":[
+  "lookup_caches": [
 
   ],
-  "lookup_data_adapters":[
+  "lookup_data_adapters": [
 
   ]
 }
