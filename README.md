@@ -10,6 +10,10 @@ Utilise the connector from here: https://developer.carbonblack.com/reference/cb-
 
 A slightly modified cb-defense-syslog.conf.example file exists in this repo; this has an updated output template for the Cb Defense Syslog Connector which prefixes logs with "cb_defense|" in order to provide easier matching for application of the extractor.
 
+# Salt Stack Based Deployment
+
+Refer to the following formula: https://github.com/colin-stubbs/salt-formula-cb-defense-syslog
+
 # Cb Defense Dashboard Example
 
 The content pack should create a dashboard as below.
