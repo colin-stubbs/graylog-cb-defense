@@ -1,6 +1,14 @@
-# graylog-cb-defense
+# Carbon Black Defense Graylog Content Pack
 
 Graylog Content Pack supporting events from Cb Defense
+
+Spawns input on TCP/11000 with appropriate extractors
+Includes stream matching all Cb Defense events
+Includes dashboard to summarise Cb Defense notifications
+
+# TODO
+
+1. Enrich with human readable severity?
 
 # Cb Defense Syslog Connector
 
